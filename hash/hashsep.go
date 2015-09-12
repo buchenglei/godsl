@@ -7,7 +7,7 @@ type listNode struct {
 	next *listNode
 }
 
-type hashFunc func(data interface{}) int
+type hashFunc func(data interface{}, tableSize int) int
 
 // 分离链接散列表的类型声明
 type HashTbl_1 struct {
@@ -53,7 +53,7 @@ func NewHash_1(tableSize int, hash hashFunc) (*HashTbl_1, error) {
 
 // 查找指定的关键字是否在hash表中
 func (h *HashTbl_1) Find(key interface{}) *listNode {
-	L := h.lists[h.hash(key)]
+	L := h.lists[h.hash(key, h.tableSize)]
 	P := L.next // 头结点不保存数据
 	for P != nil && P.data != key {
 		P = P.next
@@ -68,7 +68,7 @@ func (h *HashTbl_1) Insert(key interface{}) {
 
 	if finded == nil {
 		// 计算待存储的位置，并返回该位置上的链表的头结点
-		L := h.lists[h.hash(key)]
+		L := h.lists[h.hash(key, h.tableSize)]
 		// 将待插入的关键字插入链表的头结点
 		newnode := newNode(key)
 		newnode.next = L.next
@@ -78,7 +78,7 @@ func (h *HashTbl_1) Insert(key interface{}) {
 
 // 删除hash表中指定的关键字
 func (h *HashTbl_1) Delete(key interface{}) {
-	L := h.lists[h.hash(key)]
+	L := h.lists[h.hash(key, h.tableSize)]
 
 	for L.next != nil && L.next.data != key {
 		L = L.next
@@ -87,3 +87,7 @@ func (h *HashTbl_1) Delete(key interface{}) {
 	L.next = L.next.next
 
 }
+
+func (l *listNode) GetData() interface{} { return l.data }
+
+func (l *listNode) GetNext() *listNode { return l.next }
