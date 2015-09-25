@@ -55,7 +55,7 @@ func (b *BinHeap) Insert(element interface{}) (bool, error) {
 	b.size += 1
 	var i int // 循环外还需要使用
 	// 始终是 i 的父节点和待插入的元素比较大小
-	for i := b.size; b.compare(b.elements[i/2], element) == 1; /* < */ i /= 2 {
+	for i = b.size; b.compare(b.elements[i/2], element) == 1; /* > */ i /= 2 {
 		b.elements[i] = b.elements[i/2]
 	}
 	// 当循环结束后，slice中的的空出来的位置就是element该插入的地方
@@ -79,7 +79,7 @@ func (b *BinHeap) DeleteMin() interface{} {
 	b.size -= 1
 
 	var child, i int
-	for i := 1; i*2 <= b.size; i = child {
+	for i = 1; i*2 <= b.size; i = child {
 		// 1.find a smaller child
 		child = i * 2 // left child
 		// 2.判断右节点是否比左节点小
