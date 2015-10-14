@@ -11,6 +11,17 @@ type TreeNode struct {
 
 type PriorityQueue *TreeNode
 
+func NewLeftHeap(element ElementType) PriorityQueue {
+	H := new(TreeNode)
+
+	H.element = element
+	H.left = nil
+	H.right = nil
+	H.npl = 0
+
+	return PriorityQueue(H)
+}
+
 // 合并左式堆的驱动程序
 func Merge(H1, H2 PriorityQueue) PriorityQueue {
 	if H1 == nil {
