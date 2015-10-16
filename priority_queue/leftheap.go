@@ -1,5 +1,6 @@
+// 左式堆
 package priority_queue
-
+// 定义待保存的数据类型，这里的函数并不通用
 type ElementType int
 
 type TreeNode struct {
@@ -47,7 +48,10 @@ func Merge1(H1, H2 PriorityQueue) PriorityQueue {
 	} else {
 		// 合并总是向右子树上合并
 		H1.right = Merge(H1.right, H2)
+		// 判断当前节点的左右子节点的最短零路径长(Npl)
+		// 左节点的Npl应该 >= 右节点的Npl
 		if H1.left.npl < H1.right.npl {
+			// 交换左右节点
 			tmp := H1.left
 			H1.left = H1.right
 			H1.right = tmp
