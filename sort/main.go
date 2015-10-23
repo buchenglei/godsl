@@ -4,6 +4,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"time"
 )
 
 type ElementType int
@@ -14,13 +15,18 @@ var currentOrderName string = ""
 // 待测试数据
 var TestData []ElementType
 
+// 记录算法开始的时间
+var startTime time.Time
+
 func main() {
-	TestData = CreateTestData(10)
+	TestData = CreateTestData(100)
 
 	// 插入排序
 	currentOrderName = "插入排序"
+	start()
 	InsertionSort(TestData)
 	CheckOrder()
+	end()
 
 }
 
@@ -51,10 +57,27 @@ func CheckOrder() {
 	}
 
 	if s {
-		fmt.Println(currentOrderName, "\t排序正确")
+		fmt.Print(currentOrderName, "\t排序正确\t")
 	} else {
-		fmt.Println("\nError: ", currentOrderName, "\t排序错误")
+		fmt.Print("\nError: ", currentOrderName, "\t排序错误\t")
 	}
 
-	fmt.Println("--------------------------------")
+}
+
+// 计算排序算法的运行时间
+func start() {
+	startTime = time.Now()
+}
+
+func end() {
+	endTime := time.Now()
+	nanosecond := float32(endTime.Nanosecond() - startTime.Nanosecond())
+	millisecond := nanosecond / float32(time.Millisecond)
+	microsecond := nanosecond / float32(time.Microsecond)
+	second := nanosecond / float32(time.Second)
+
+	fmt.Printf("共耗时 %.2f 秒，%.2f 毫秒，%.2f 微秒, %.2f 纳秒\n",
+		second, millisecond, microsecond, nanosecond)
+
+	fmt.Println()
 }
