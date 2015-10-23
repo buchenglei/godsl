@@ -4,6 +4,8 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"os"
+	"strconv"
 	"time"
 )
 
@@ -15,18 +17,33 @@ var currentOrderName string = ""
 // 待测试数据
 var TestData []ElementType
 
-// 记录算法开始的时间
-var startTime time.Time
-
 func main() {
-	TestData = CreateTestData(100)
+	// 测试数据的个数， 默认 1000 个
+	Numbers := 1000
+
+	if len(os.Args) == 2 {
+		t1, err := strconv.ParseInt(os.Args[1], 10, 32)
+		if t1 > 0 && err == nil {
+			Numbers = int(t1)
+		}
+	}
+
+	TestData = CreateTestData(Numbers)
 
 	// 插入排序
-	currentOrderName = "插入排序"
-	start()
-	InsertionSort(TestData)
+	Test(InsertionSort, "插入排序")
+	// 希尔排序
+	Test(Shellsort, "希尔排序")
+
+}
+
+// 统一的测试函数
+func Test(f func(A []ElementType), name string) {
+	currentOrderName = name
+	start := time.Now()
+	f(TestData)
 	CheckOrder()
-	end()
+	end(start)
 
 }
 
@@ -64,20 +81,13 @@ func CheckOrder() {
 
 }
 
-// 计算排序算法的运行时间
-func start() {
-	startTime = time.Now()
-}
-
-func end() {
+func end(startTime time.Time) {
 	endTime := time.Now()
-	nanosecond := float32(endTime.Nanosecond() - startTime.Nanosecond())
-	millisecond := nanosecond / float32(time.Millisecond)
-	microsecond := nanosecond / float32(time.Microsecond)
-	second := nanosecond / float32(time.Second)
+	nanosecond := float64(endTime.Nanosecond() - startTime.Nanosecond())
+	millisecond := nanosecond / float64(time.Millisecond)
+	microsecond := nanosecond / float64(time.Microsecond)
+	second := nanosecond / float64(time.Second)
 
-	fmt.Printf("共耗时 %.2f 秒，%.2f 毫秒，%.2f 微秒, %.2f 纳秒\n",
+	fmt.Printf("共耗时 %f 秒，%f 毫秒，%f 微秒, %f 纳秒\n",
 		second, millisecond, microsecond, nanosecond)
-
-	fmt.Println()
 }
