@@ -17,9 +17,10 @@ var currentOrderName string = ""
 // 待测试数据
 var TestData []ElementType
 
+// 测试数据的个数， 默认 100 个
+var Numbers int = 100
+
 func main() {
-	// 测试数据的个数， 默认 1000 个
-	Numbers := 1000
 
 	if len(os.Args) == 2 {
 		t1, err := strconv.ParseInt(os.Args[1], 10, 32)
@@ -27,18 +28,21 @@ func main() {
 			Numbers = int(t1)
 		}
 	}
-
-	TestData = CreateTestData(Numbers)
+	// 初始化测试slice
+	TestData = make([]ElementType, Numbers)
 
 	// 插入排序
 	Test(InsertionSort, "插入排序")
 	// 希尔排序
 	Test(Shellsort, "希尔排序")
+	// 堆排序
+	Test(Heapsort, "堆排序")
 
 }
 
 // 统一的测试函数
 func Test(f func(A []ElementType), name string) {
+	InitTestData()
 	currentOrderName = name
 	start := time.Now()
 	f(TestData)
@@ -47,17 +51,15 @@ func Test(f func(A []ElementType), name string) {
 
 }
 
-func CreateTestData(length int) []ElementType {
-	if length <= 0 {
+func InitTestData() {
+	if Numbers <= 0 {
 		panic("No test data!")
 	}
 
-	data := make([]ElementType, length)
-	for i := 0; i < length; i++ {
-		data[i] = ElementType(rand.Intn(200))
+	for i := 0; i < Numbers; i++ {
+		TestData[i] = ElementType(rand.Intn(200))
 	}
 
-	return data
 }
 
 func CheckOrder() {
