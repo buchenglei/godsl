@@ -5,20 +5,24 @@ func leftchild(i int) int {
 }
 
 // 构造二叉堆时，数组中Index=0并不特殊处理
+// Important!!!!!!!!!!!!!!!!!!!!!
+// 这里的堆中根处保存最大值，然后不断地将其删除
+// 并依次放在数组的末尾，那么从Index=0开始，
+// 数据就是从小到大排列的
 func percdown(A []ElementType, i, N int) {
 	var Child int
 	var Tmp ElementType
 
 	for Tmp = A[i]; leftchild(i) < N; i = Child {
-		Child := leftchild(i)
+		Child = leftchild(i)
 		// 找出左右子节点中较小的那一个
 		// Child != N - 1目的是防止Child指向最后一个元素
 		// 从而防止数组越界的问题
-		if Child != N-1 && A[Child+1] < A[Child] {
+		if Child != N-1 && A[Child+1] > A[Child] {
 			Child++
 		}
 		// 从小到大排列
-		if Tmp > A[Child] {
+		if Tmp < A[Child] {
 			A[i] = A[Child]
 		} else {
 			break

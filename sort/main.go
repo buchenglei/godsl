@@ -17,8 +17,8 @@ var currentOrderName string = ""
 // 待测试数据
 var TestData []ElementType
 
-// 测试数据的个数， 默认 100 个
-var Numbers int = 100
+// 测试数据的个数， 默认 1000 个
+var Numbers int = 1000
 
 func main() {
 
@@ -36,7 +36,7 @@ func main() {
 	// 希尔排序
 	Test(Shellsort, "希尔排序")
 	// 堆排序
-	Test(Heapsort, "堆排序")
+	Test(Heapsort, "堆排序  ")
 
 }
 
