@@ -37,6 +37,8 @@ func main() {
 	Test(Shellsort, "希尔排序")
 	// 堆排序
 	Test(Heapsort, "堆排序  ")
+	// 归并排序
+	Test(Mergesort, "归并排序")
 
 }
 
