@@ -39,6 +39,8 @@ func main() {
 	Test(Heapsort, "堆排序  ")
 	// 归并排序
 	Test(Mergesort, "归并排序")
+	// 快速排序
+	Test(Quicksort, "快速排序")
 
 }
 
