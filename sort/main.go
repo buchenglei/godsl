@@ -61,7 +61,7 @@ func InitTestData() {
 	}
 
 	for i := 0; i < Numbers; i++ {
-		TestData[i] = ElementType(rand.Intn(200))
+		TestData[i] = ElementType(rand.Intn(Numbers))
 	}
 
 }
