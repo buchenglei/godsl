@@ -1,19 +1,13 @@
 package main
 
-import "fmt"
-
+// 设置一个临界点
+// 当数组长度过小的时候，使用插入排序
 const Cutoff = 10
 
 // 快速排序入口程序
 func Quicksort(A []ElementType) {
 	N := len(A)
 	qsort(A, 0, N-1)
-}
-
-func swap(A []ElementType, Left, Right int) {
-	tmp := A[Left]
-	A[Left] = A[Right]
-	A[Right] = tmp
 }
 
 // 实现三数中值方法的程序
@@ -23,17 +17,17 @@ func median3(A []ElementType, Left, Right int) ElementType {
 	// 将Left Center Right位置的值按照大小顺序排序
 	// 使得A[Left] <= A[Center] <= A[Right]
 	if A[Left] > A[Center] {
-		swap(A, Left, Center)
+		A[Left], A[Center] = A[Center], A[Left]
 	}
 	if A[Left] > A[Right] {
-		swap(A, Left, Right)
+		A[Left], A[Right] = A[Right], A[Left]
 	}
 	if A[Center] > A[Right] {
-		swap(A, Center, Right)
+		A[Center], A[Right] = A[Right], A[Center]
 	}
 
 	// Right位置的值是肯定大于Center位置的值
-	swap(A, Center, Right-1)
+	A[Center], A[Right-1] = A[Right-1], A[Center]
 
 	return A[Right-1]
 }
@@ -46,51 +40,37 @@ func qsort(A []ElementType, Left, Right int) {
 		i := Left
 		j := Right - 1
 		for {
+			// 这里的写法比较恶心，翻译成C语言就是：
+			// while(A[++i] < Pivot) {}
 			for {
-				i++
-				if A[i] < Pivot {
+				if i += 1; A[i] < Pivot {
 				} else {
 					break
 				}
 			}
+			/// while(A[--j] > Pivot) {}
 			for {
-				j--
-				if A[j] > Pivot {
+				if j -= 1; A[j] > Pivot {
 				} else {
 					break
 				}
 			}
 			if i < j {
-				swap(A, i, j)
+				A[i], A[j] = A[j], A[i]
 			} else {
 				break
 			}
 		}
-		swap(A, i, Right-1)
+		A[i], A[Right-1] = A[Right-1], A[i]
 
 		qsort(A, Left, i-1)
 		qsort(A, i+1, Right)
 	} else {
 		// 插入排序
-		fmt.Println("InsertionSort")
-		tmp := A[Left+1 : Right+1]
+		// 这是一个容易出错的地方
+		// 指明范围的时候a:b，包含a但不包含b
+		tmp := A[Left : Right+1]
 		InsertionSort(tmp)
 	}
 
 }
-
-/*func insertionsort(A []ElementType, Left, Right int) {
-	length := Right - Left + 1
-	for p := left; p <= length; p++ {
-		Tmp := A[p]
-
-		for j = p; j > 0 && A[j-1] > Tmp; j-- {
-			// 将Tmp作为空穴，通过比较不断的向前移动
-			// 避免了多次的元素交换的操作
-			A[j] = A[j-1]
-		}
-
-		A[j] = Tmp
-	}
-}
-*/
