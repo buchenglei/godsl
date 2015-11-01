@@ -1,7 +1,7 @@
 // 排序函数默认从小到大排列
 package main
 
-func InsertionSort(A []ElementType) {
+func Insertionsort(A []ElementType) {
 	length := len(A)
 	var j int
 

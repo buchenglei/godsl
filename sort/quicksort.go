@@ -70,7 +70,7 @@ func qsort(A []ElementType, Left, Right int) {
 		// 这是一个容易出错的地方
 		// 指明范围的时候a:b，包含a但不包含b
 		tmp := A[Left : Right+1]
-		InsertionSort(tmp)
+		Insertionsort(tmp)
 	}
 
 }

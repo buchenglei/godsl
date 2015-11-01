@@ -32,7 +32,7 @@ func main() {
 	TestData = make([]ElementType, Numbers)
 
 	// 插入排序
-	Test(InsertionSort, "插入排序")
+	Test(Insertionsort, "插入排序")
 	// 希尔排序
 	Test(Shellsort, "希尔排序")
 	// 堆排序
